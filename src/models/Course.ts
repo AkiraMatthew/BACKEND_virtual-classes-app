@@ -30,7 +30,7 @@ export const Course = sequelize.define<CourseInstance, Course>('Course', {
         type: DataTypes.STRING
     },
     thumbnailUrl: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.TEXT
     },
     featured: {
