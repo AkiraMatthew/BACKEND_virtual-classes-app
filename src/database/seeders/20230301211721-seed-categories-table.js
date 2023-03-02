@@ -2,47 +2,16 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('courses', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
-      },
-      name: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING
-      },
-      synopsis: {
-        allowNull: false,
-        type: Sequelize.DataTypes.TEXT
-      },
-      thumbnail_url: {
-        type: Sequelize.DataTypes.STRING
-      },
-      featured: {
-        defaultValue: false,
-        type: Sequelize.DataTypes.BOOLEAN
-      },
-      category_id: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: { model: 'categories', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'
-      },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE
-      }
-    }, {})
+    await queryInterface.bulkInsert('categories', [
+      { name: 'Backend', position: 1, created_at: new Date(), updated_at: new Date() },
+      { name: 'Frontend', position: 2, created_at: new Date(), updated_at: new Date() },
+      { name: 'Extra tools', position: 3, created_at: new Date(), updated_at: new Date() },
+      { name: 'Soft-skills', position: 4, created_at: new Date(), updated_at: new Date() },
+      { name: 'Carrier', position: 5, created_at: new Date(), updated_at: new Date() },
+    ], {})
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('courses', null, {})
+    await queryInterface.bulkDelete('categories', null, {})
   }
 };
