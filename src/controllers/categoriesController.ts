@@ -1,4 +1,28 @@
 import { Request, Response } from "express";
+import { getPaginationParams } from "../helpers/getPaginationParams";
+import { categoryService } from "../services/categoryService";
+
+export const categoriesController = {
+    index: async (req: Request, res: Response) => {
+        const [ page, perPage ] = getPaginationParams(req.query)
+
+        try {
+            const paginatedCategories = await categoryService.findAllPaginated(perPage, page)
+            
+            //throw new Error('database connection error')
+            return res.json(paginatedCategories)
+        } catch (error) {
+            if(error instanceof Error){
+                return res.status(400).json({ message: error.message })
+            }
+        }
+    }
+}
+
+
+
+//this is how the code was before refatoring it with the services and the helpers folder
+/*import { Request, Response } from "express";
 import { Category } from "../models";
 
 export const categoriesController = {
@@ -36,4 +60,4 @@ export const categoriesController = {
             }
         }
     }
-}
+}*/
