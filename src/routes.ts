@@ -5,5 +5,6 @@ const router = express.Router();
 
 //get routes - categories
 router.get('/categories', categoriesController.index);
+router.get('/categories/:id', categoriesController.show)
 
 export { router }
