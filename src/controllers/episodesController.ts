@@ -33,11 +33,22 @@ export const episodesController = {
                     'Content-Type': 'video/mp4'
                 };
 
-                res.writeHead(206, head)//status 206 represents a partial content
+                res.writeHead(206, head) //status 206 represents a partial content
                 file.pipe(res) 
+            } else { //when there isn't a set range, the response give the entire video 
+                const head = {
+                    'Content-Length': fileStat.size,
+                    'Content-Type': 'video/mp4'
+                };
+
+                res.writeHead(200, head);
+                fs.createReadStream(filePath).pipe(res)
+
             }
         } catch (error) {
-            
+            if(error instanceof Error){
+                return res.status(400).json({ message: error.message })
+            }
         }
     }
 }
