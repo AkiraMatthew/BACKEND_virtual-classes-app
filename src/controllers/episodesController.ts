@@ -4,20 +4,21 @@ import path from "path";
 
 export const episodesController = {
     //GET /episodes/stream?videoUrl=
-    stream:async (req: Request, res: Response) => {
+    stream: async (req: Request, res: Response) => {
         const { videoUrl } = req.query;
+        console.log({ videoUrl })
 
         try {
             if (typeof videoUrl !== 'string') throw new Error("videoUrl param must be of type 'string'");
             
-            const filePath = path.join(__dirname, '..', '..', 'uploads', videoUrl);
+            const filePath = path.join(__dirname, '../../uploads', videoUrl);
             const fileStat = fs.statSync(filePath);
 
             // video range
             const range = req.headers.range; // bytes=0-1024
 
             if (range){
-                const parts = range.replace(/bytse=/, '').split('-');
+                const parts = range.replace(/bytes=/, '').split('-');
 
                 const start = parseInt(parts[0], 10); //1024
                 const end = parts[1] ? parseInt(parts[1], 10) : fileStat.size - 1; //8196

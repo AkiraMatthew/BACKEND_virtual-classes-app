@@ -16,6 +16,6 @@ router.get('/courses/search', coursesController.search);
 router.get('/courses/:id', coursesController.show);
 
 //ger routes - episodes
-router.get('courses/stream', episodesController.stream);
+router.get('/episodes/stream', episodesController.stream);
 
 export { router }
