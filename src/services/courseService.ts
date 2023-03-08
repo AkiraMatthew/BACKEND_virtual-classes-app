@@ -55,8 +55,10 @@ export const courseService = {
         return courses
     },
 
-    findByName:async (name: string) => {
-        const course = await Course.findAll({
+    findByName:async (name: string, page: number, perPage: number) => {
+        const offset = (page -1) * perPage
+       
+         const {count, rows} = await Course.findAndCountAll({
             attributes: [
                 'id',
                 'name',
@@ -67,9 +69,16 @@ export const courseService = {
                 name: { //we use the following method to make a search that enables to the search reckognize any key-word for the research
                     [Op.iLike]: `%${name}%` //the percentage means that we want to search the word/letter in any position in the string
                 }
-            }
+            },
+            limit: perPage,
+            offset
         });
 
-        return course
+        return {
+            course: rows,
+            page,
+            perPage,
+            total: count
+        }
     }
 }
