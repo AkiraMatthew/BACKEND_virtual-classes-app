@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Course } from "../models";
 
 export const courseService = {
@@ -52,5 +53,23 @@ export const courseService = {
         });
 
         return courses
+    },
+
+    findByName:async (name: string) => {
+        const course = await Course.findAll({
+            attributes: [
+                'id',
+                'name',
+                'synopsis',
+                ['thumbnail_url', 'thumbnailUrl']
+            ],
+            where: {
+                name: { //we use the following method to make a search that enables to the search reckognize any key-word for the research
+                    [Op.iLike]: `%${name}%` //the percentage means that we want to search the word/letter in any position in the string
+                }
+            }
+        });
+
+        return course
     }
 }
