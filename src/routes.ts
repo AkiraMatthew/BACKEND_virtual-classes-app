@@ -9,7 +9,8 @@ router.get('/categories', categoriesController.index);
 router.get('/categories/:id', categoriesController.show);
 
 //get routes - courses
-router.get('/courses/featured', coursesController.featured)
+router.get('/courses/featured', coursesController.featured);
+router.get('/courses/newest', coursesController.newest);
 router.get('/courses/:id', coursesController.show);
 
 export { router }
