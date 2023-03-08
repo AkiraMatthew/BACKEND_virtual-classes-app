@@ -11,7 +11,7 @@ Category.hasMany(Course, { as: 'courses' }) //on this query, rather than "{ as: 
 
 Course.belongsTo(Category)
 //Course.hasMany(Episode) //in this case the target Model name would be "{ as: 'Episodes' }"
-Course.hasMany(Episode, { as: 'courses' })//however, writing with lowcase letters is the pattern for the name, so we need to use the 'as' property
+Course.hasMany(Episode, { as: 'episodes' })//however, writing with lowcase letters is the pattern for the name, so we need to use the 'as' property
 Course.hasMany(Episode)
 
 Episode.belongsTo(Course)
