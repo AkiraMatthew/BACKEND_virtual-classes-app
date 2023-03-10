@@ -10,6 +10,9 @@ app.use(express.static('public'))
 // app.use(path, routes);
 app.use(adminJs.options.rootPath, adminJsRouter);
 
+//specifying the body to return as a json() request
+app.use(express.json());
+
 //routes 
 app.use(router)
 
