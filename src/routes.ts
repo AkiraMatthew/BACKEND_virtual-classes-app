@@ -8,6 +8,7 @@ const router = express.Router();
 
 //post routes - user auth
 router.post('/auth/register', authController.register);
+router.post('/auth/login', authController.login);
 
 //get routes - categories
 router.get('/categories', categoriesController.index);
