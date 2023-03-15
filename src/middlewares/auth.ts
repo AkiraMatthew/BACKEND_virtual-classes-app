@@ -11,25 +11,25 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export function ensureAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const authorizationHeader = req.headers.authorization;
+  const authorizationHeader = req.headers.authorization
 
   if (!authorizationHeader) {
-    return res.status(401).json({ message: 'Unauthorized access: no token was found' });
+    return res.status(401).json({ message: 'Unauthorized access: no token was found' })
   }
 
-  const token = authorizationHeader.replace(/Bearer /, '');
+  const token = authorizationHeader.replace(/Bearer /, '')
 
-  // Import the jwtService module and verifyToken method
-  jwtService.verifyToken(token, async (err: any, decoded: any) => { // add types for err and decoded
+  jwtService.verifyToken(token, (err, decoded) => {
     if (err || typeof decoded === 'undefined') {
-      return res.status(401).json({ message: 'Unauthorized access: invalid token' });
+      return res.status(401).json({ message: 'Unauthorized access: invalid token' })
     }
 
-    const user = await userService.findByEmail((decoded as JwtPayload).email);
-    req.user = user;
-    next();
-  });
-}
+    userService.findByEmail((decoded as JwtPayload).email).then(user => {
+      req.user = user
+      next()
+    })
+  })
+};
 
 export function ensureAuthViaQuery(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { token } = req.query;

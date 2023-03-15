@@ -16,9 +16,9 @@ export const episodesController = {
              //service implementation
              episodeService.streamEpisodeToResponse(res, videoUrl, range)
             
-        } catch (error) {
-            if(error instanceof Error){
-                return res.status(400).json({ message: error.message })
+        } catch (err) {
+            if(err instanceof Error){
+                return res.status(400).json({ message: err.message })
             }
         }
     }
