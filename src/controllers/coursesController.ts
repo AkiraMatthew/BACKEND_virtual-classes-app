@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { getPaginationParams } from "../helpers/getPaginationParams";
+import { AuthenticatedRequest } from "../middlewares/auth";
 import { courseService } from "../services/courseService";
+import { likeService } from "../services/likeService";
 
 export const coursesController ={
     //GET /courses/featured
@@ -47,12 +49,17 @@ export const coursesController ={
     },
 
     //GET /courses/:id
-    show: async (req: Request, res: Response) => {
-        const { id } = req.params;
+    show: async (req: AuthenticatedRequest, res: Response) => {
+        const userId = req.user!.id;
+        const courseId  = req.params.id;
 
         try {
-            const course = await courseService.findByIdWithEpisodes(id);
-            return res.json(course)
+            const course = await courseService.findByIdWithEpisodes(courseId);
+
+            if(!course) return res.status(404).json({ message: 'course not found' });
+
+            const liked = await likeService.isLiked(userId, Number(courseId));
+            return res.json({ ...course.get(), liked })//in this case, the course would return not only the values but also the properties. So by using the get() method, it will only return the unstructured 'course' values
         } catch (error) {
             if(error instanceof Error){
                 return res.status(400).json({ message: error.message })
