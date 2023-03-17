@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getPaginationParams } from "../helpers/getPaginationParams";
 import { AuthenticatedRequest } from "../middlewares/auth";
 import { courseService } from "../services/courseService";
+import { favoriteService } from "../services/favoriteService";
 import { likeService } from "../services/likeService";
 
 export const coursesController ={
@@ -59,11 +60,13 @@ export const coursesController ={
             if(!course) return res.status(404).json({ message: 'course not found' });
 
             const liked = await likeService.isLiked(userId, Number(courseId));
-            return res.json({ ...course.get(), liked })//in this case, the course would return not only the values but also the properties. So by using the get() method, it will only return the unstructured 'course' values
+            const favorited = await favoriteService.isFavorited(userId, Number(courseId))
+
+            return res.json({ ...course.get(), favorited, liked })//in this case, the course would return not only the values but also the properties. So by using the get() method, it will only return the unstructured 'course' values
         } catch (error) {
             if(error instanceof Error){
                 return res.status(400).json({ message: error.message })
             }
         }
-    }
+    },
 }
