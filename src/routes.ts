@@ -21,6 +21,7 @@ router.get('/categories/:id', categoriesController.show);
 router.get('/courses/featured', ensureAuth, coursesController.featured);
 router.get('/courses/newest', coursesController.newest);
 router.get('/courses/search', ensureAuth, coursesController.search);
+router.get('/courses/popular', ensureAuth,coursesController.popular);
 router.get('/courses/:id', ensureAuth, coursesController.show);
 
 //GET routes - episodes

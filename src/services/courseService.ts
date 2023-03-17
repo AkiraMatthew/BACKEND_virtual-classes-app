@@ -56,12 +56,12 @@ export const courseService = {
     },
 
     getTopTenByLikes:async () => {
-        const result = await Course.sequelize?.query(`
-            SELECT
+        const results = await Course.sequelize?.query(
+            `SELECT
                 courses.id,
                 courses.name,
                 courses.synopsis,
-                courses.thumbnail_url AS thumbnailUrl
+                courses.thumbnail_url as thumbnailUrl,
                 COUNT(users.id) AS likes
             FROM courses
                 LEFT OUTER JOIN likes
@@ -70,15 +70,12 @@ export const courseService = {
                         ON users.id = likes.user_id
             GROUP BY courses.id
             ORDER BY likes DESC
-            LIMIT 10;
-        `);
+            LIMIT 10;`
+        );
 
-        if(result){
-            const [topTen, metadata] = result;
-            return ({
-                topTen, 
-                metadata
-            })
+        if(results){
+            const [topTen, metadata] = results;
+            return topTen
         } else {
             return null
         }
