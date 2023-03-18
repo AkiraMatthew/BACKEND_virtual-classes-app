@@ -6,6 +6,7 @@ import { Episode } from './Episode';
 import { Favorite } from './Favorite';
 import { Like } from './like';
 import { User } from './User';
+import { WatchTime } from './WatchTime';
 
 //sequelize as default to name the target association with its default version
 Category.hasMany(Course, { as: 'courses' }) //on this query, rather than "{ as: 'courses' }", 
@@ -19,6 +20,7 @@ Course.hasMany(Episode, { as: 'episodes' });//however, writing with lowcase lett
 Course.hasMany(Favorite, { as: 'favoritesUsers', foreignKey: 'course_id' });
 
 Episode.belongsTo(Course);
+Episode.belongsToMany(User, { through: WatchTime });
 
 Favorite.belongsTo(Course);
 Favorite.belongsTo(User);
@@ -26,6 +28,7 @@ Favorite.belongsTo(User);
 User.belongsToMany(Course, { through: Favorite });
 User.belongsToMany(Course, { through: Like })
 User.hasMany(Favorite, { as: 'favoritesCourses', foreignKey: 'user_id' });
+User.belongsToMany(Episode, { through: WatchTime });
 
 
 export {
