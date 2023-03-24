@@ -1,6 +1,8 @@
 import { Response } from "express";
 import fs from "fs";
 import path from "path";
+import { WatchTimeAttributes } from "../models/WatchTime";
+import { WatchTime } from '../models'
 
 export const episodeService = {
     streamEpisodeToResponse: (res: Response, videoUrl: string, range: string | undefined) => {
@@ -35,5 +37,32 @@ export const episodeService = {
                 res.writeHead(200, head);
                 fs.createReadStream(filePath).pipe(res)
             }
+    },
+
+    getWatchTime: async (userId: number, episodeId: number) => {
+        const watchTime = WatchTime.findOne({
+            attributes: [ 'seconds' ],
+            where: {
+                userId,
+                episodeId
+            }
+        });
+        
+        return watchTime
+    },
+
+    //when we have many arguments, we can put then inside a object to aggregate then and make easier to organize. Insteado of using (userId, episodeId, second), we use ({userId, episodeId, second})
+    setWatchTime: async ({ userId, episodeId, seconds }: WatchTimeAttributes) => {  
+        const watchTime = WatchTime.create({
+            userId,
+            episodeId,
+            seconds
+            //or
+            // userId: attributes.userId,
+            // episodeId: attributes.episodeId,
+            // seconds: attributes.seconds
+        });
+        
+        return watchTime
     }
 }
