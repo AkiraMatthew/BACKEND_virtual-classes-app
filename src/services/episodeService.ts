@@ -59,11 +59,12 @@ export const episodeService = {
                 userId,
                 episodeId
             }
-        });
+        })
 
         if(watchTimeAlreadyExists){
             watchTimeAlreadyExists.seconds = seconds
             await watchTimeAlreadyExists.save()
+            
             return watchTimeAlreadyExists;
         } else {
             const watchTime = await WatchTime.create({
