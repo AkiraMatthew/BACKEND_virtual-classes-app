@@ -40,7 +40,7 @@ export const episodeService = {
     },
 
     getWatchTime: async (userId: number, episodeId: number) => {
-        const watchTime = WatchTime.findOne({
+        const watchTime = await WatchTime.findOne({
             attributes: [ 'seconds' ],
             where: {
                 userId,
@@ -53,16 +53,32 @@ export const episodeService = {
 
     //when we have many arguments, we can put then inside a object to aggregate then and make easier to organize. Insteado of using (userId, episodeId, second), we use ({userId, episodeId, second})
     setWatchTime: async ({ userId, episodeId, seconds }: WatchTimeAttributes) => {  
-        const watchTime = WatchTime.create({
-            userId,
-            episodeId,
-            seconds
-            //or
-            // userId: attributes.userId,
-            // episodeId: attributes.episodeId,
-            // seconds: attributes.seconds
+        //when making a request on the frontend, first we check if the watchTime is already settled
+        const watchTimeAlreadyExists = await WatchTime.findOne({
+            where: {
+                userId,
+                episodeId
+            }
         });
+
+        if(watchTimeAlreadyExists){
+            watchTimeAlreadyExists.seconds = seconds
+            await watchTimeAlreadyExists.save()
+            return watchTimeAlreadyExists;
+        } else {
+            const watchTime = await WatchTime.create({
+                userId,
+                episodeId,
+                seconds
+                //or
+                // userId: attributes.userId,
+                // episodeId: attributes.episodeId,
+                // seconds: attributes.seconds
+            });
+            
+            return watchTime
+        }
+
         
-        return watchTime
     }
 }
