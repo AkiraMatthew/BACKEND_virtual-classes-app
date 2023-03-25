@@ -26,9 +26,9 @@ router.get('/courses/:id', ensureAuth, coursesController.show);
 
 //GET routes - episodes
 router.get('/episodes/stream', ensureAuthViaQuery, episodesController.stream);
-router.get('episodes/:id/watchTime', ensureAuth, episodesController.getWatchTime);
+router.get('/episodes/:id/watchTime', ensureAuth, episodesController.getWatchTime);
 //POST routes - episodes
-router.post('episodes/:id/watchTime', ensureAuth, episodesController.setWatchTime);
+router.post('/episodes/:id/watchTime', ensureAuth, episodesController.setWatchTime);
 
 //GET routes - favorites
 router.get('/favorites', ensureAuth, favoritesController.index);
