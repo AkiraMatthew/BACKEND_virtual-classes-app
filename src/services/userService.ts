@@ -48,7 +48,7 @@ export const userService = {
     getKeepWatchingList: async (id: number) => {
         const userWithWatchingEpisodes = await User.findByPk(id, {
             include: {
-                association: 'Episode',
+                association: 'Episodes',
                 include: [{
                     association: 'Course'
                 }],
@@ -58,6 +58,10 @@ export const userService = {
             }
         })
 
-        if(!userWithWatchingEpisodes) throw new Error('User not found')
+        if(!userWithWatchingEpisodes) throw new Error('User not found');
+
+        const keepWatchingList = filterLastEpisodeByCourse(userWithWatchingEpisodes.Episodes!)
+        
+        return keepWatchingList
     }
 }
