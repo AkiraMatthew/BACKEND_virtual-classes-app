@@ -49,11 +49,30 @@ export const userService = {
         const userWithWatchingEpisodes = await User.findByPk(id, {
             include: {
                 association: 'Episodes',
+                attributes: [
+                    'id',
+                    'name',
+                    'synopsis',
+                    'order',
+                    ['video_url', 'videoUrl'],
+                    ['seconds_long', 'secondsLong'],
+                    ['course_id', 'courseId']
+                ],
                 include: [{
-                    association: 'Course'
+                    association: 'Course',
+                    attributes: [
+                        'id',
+                        'name',
+                        'synopsis',
+                        ['thumbnail_url', 'thumbnailUrl']
+                    ],
                 }],
                 through: {
-                    as: 'watchTime'
+                    as: 'watchTime',
+                    attributes: [
+                        'seconds',
+                        ['updated_at', 'updatedAt']
+                    ]
                 }
             }
         })
@@ -61,6 +80,11 @@ export const userService = {
         if(!userWithWatchingEpisodes) throw new Error('User not found');
 
         const keepWatchingList = filterLastEpisodeByCourse(userWithWatchingEpisodes.Episodes!)
+
+        //the last episode seen will be the one to be listed first
+        // @ts-ignore
+        keepWatchingList.sort((a, b) => a.watchTime.updatedAt < b.watchTime.updatedAt ? 1 : -1)
+        
         
         return keepWatchingList
     }
