@@ -1,11 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import { adminJs, adminJsRouter } from './adminJS';
 import { sequelize } from './database';
 import { router } from './routes';
 
 const app = express();
 
-app.use(express.static('public'))
+app.use(cors()) //used for different origins requests security
+
+app.use(express.static('public'));
 
 // app.use(path, routes);
 app.use(adminJs.options.rootPath, adminJsRouter);
