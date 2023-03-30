@@ -51,6 +51,17 @@ export const userService = {
         return updatedUsers[0]
     },
 
+    updatePassword: async (id: number, password: string) => {
+        const [affectedRows, updatedUsers] = await User.update({ password }, { 
+            where: { id }, 
+            returning: true,
+            //update method do not execute the individualHooks by default
+            individualHooks: true //if we don't include this method, the password will not be encrypted, because the encryption made with bcrypt on the User model will not work unless the current method enable it through the individualHooks method
+        } )
+
+        return updatedUsers[0]
+    },
+
     getKeepWatchingList: async (id: number) => {
         const userWithWatchingEpisodes = await User.findByPk(id, {
             include: {
