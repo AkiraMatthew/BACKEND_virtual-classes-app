@@ -1,20 +1,20 @@
-import { AuthenticationOptions } from "@adminjs/express";
-import { User } from "../models/User";
-import bcrypt from "bcrypt";
+import { AuthenticationOptions } from '@adminjs/express';
+import { User } from '../models/User';
+import bcrypt from 'bcrypt';
 
 export const authOptions: AuthenticationOptions = {
     authenticate: async (email, password) => {
         const user = await User.findOne({ where: { email: email } });
 
-        if(user && user.role === 'admin'){
+        if (user && user.role === 'admin') {
             const matched = await bcrypt.compare(password, user.password);
 
-            if(matched){
-                return user
-            };
-        };
+            if (matched) {
+                return user;
+            }
+        }
 
-        return false
+        return false;
     },
-    cookiePassword: 'cookie-password'
-}
+    cookiePassword: 'cookie-password',
+};

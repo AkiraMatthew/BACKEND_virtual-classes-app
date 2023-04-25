@@ -1,28 +1,28 @@
-import { Like } from "../models"
+import { Like } from '../models';
 
 export const likeService = {
     create: async (userId: number, courseId: number) => {
         const like = await Like.create({ userId, courseId });
-        
-        return like
+
+        return like;
     },
     delete: async (userId: number, courseId: number) => {
         const likeRemove = await Like.destroy({
             where: {
                 userId,
-                courseId
-            }
+                courseId,
+            },
         });
-        return likeRemove
+        return likeRemove;
     },
     isLiked: async (userId: number, courseId: number) => {
         const like = await Like.findOne({
             where: {
                 userId,
-                courseId
-            }
+                courseId,
+            },
         });
 
-        return like !== null ? true : false
-    }
-}
+        return like !== null ? true : false;
+    },
+};

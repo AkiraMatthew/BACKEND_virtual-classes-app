@@ -1,28 +1,58 @@
 // src/adminjs/resources/course.ts
 
-import uploadFileFeature from "@adminjs/upload";
-import { FeatureType, ResourceOptions } from "adminjs";
-import path from "path";
+import uploadFileFeature from '@adminjs/upload';
+import { FeatureType, ResourceOptions } from 'adminjs';
+import path from 'path';
 
 export const courseResourceOptions: ResourceOptions = {
-  navigation: 'Catálogo',
-  editProperties: ['name', 'synopsis', 'uploadThumbnail', 'featured', 'categoryId'],
-  filterProperties: ['name', 'synopsis', 'featured', 'categoryId', 'createdAt', 'updatedAt'],
-  listProperties: ['id', 'name', 'featured', 'categoryId'],
-  showProperties: ['id', 'name', 'synopsis', 'featured', 'thumbnailUrl', 'categoryId', 'createdAt', 'updatedAt']
+    navigation: 'Catálogo',
+    editProperties: [
+        'name',
+        'synopsis',
+        'uploadThumbnail',
+        'featured',
+        'categoryId',
+    ],
+    filterProperties: [
+        'name',
+        'synopsis',
+        'featured',
+        'categoryId',
+        'createdAt',
+        'updatedAt',
+    ],
+    listProperties: ['id', 'name', 'featured', 'categoryId'],
+    showProperties: [
+        'id',
+        'name',
+        'synopsis',
+        'featured',
+        'thumbnailUrl',
+        'categoryId',
+        'createdAt',
+        'updatedAt',
+    ],
 };
 
 export const courseResourceFeatures: FeatureType[] = [
-  uploadFileFeature({
-    provider: {
-      local: {
-        bucket: path.join(__dirname, '..', '..', '..', 'public', 'thumbnails')
-      }
-    },
-    properties: {
-      key: 'thumbnailUrl',
-      file: 'uploadThumbnail'
-    },
-    uploadPath: (record, filename) => `thumbnail/course-${record.get('id')}/${filename}`
-  })
-]
+    uploadFileFeature({
+        provider: {
+            local: {
+                bucket: path.join(
+                    __dirname,
+                    '..',
+                    '..',
+                    '..',
+                    'public',
+                    'thumbnails'
+                ),
+            },
+        },
+        properties: {
+            key: 'thumbnailUrl',
+            file: 'uploadThumbnail',
+        },
+        uploadPath: (record, filename) =>
+            `thumbnail/course-${record.get('id')}/${filename}`,
+    }),
+];

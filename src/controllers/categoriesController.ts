@@ -1,40 +1,41 @@
-import { Request, Response } from "express";
-import { getPaginationParams } from "../helpers/getPaginationParams";
-import { categoryService } from "../services/categoryService";
+import { Request, Response } from 'express';
+import { getPaginationParams } from '../helpers/getPaginationParams';
+import { categoryService } from '../services/categoryService';
 
 export const categoriesController = {
     //GET /categories
     index: async (req: Request, res: Response) => {
-        const [ page, perPage ] = getPaginationParams(req.query)
+        const [page, perPage] = getPaginationParams(req.query);
 
         try {
-            const paginatedCategories = await categoryService.findAllPaginated(page, perPage)
-            
+            const paginatedCategories = await categoryService.findAllPaginated(
+                page,
+                perPage
+            );
+
             //throw new Error('database connection error')
-            return res.json(paginatedCategories)
+            return res.json(paginatedCategories);
         } catch (error) {
-            if(error instanceof Error){
-                return res.status(400).json({ message: error.message })
+            if (error instanceof Error) {
+                return res.status(400).json({ message: error.message });
             }
         }
     },
 
     //GET /categories/:id
-    show:async (req: Request, res: Response) => {
+    show: async (req: Request, res: Response) => {
         const { id } = req.params;
 
         try {
-            const category = await categoryService.findByIdWithCourses(id)
-            return res.json(category)
+            const category = await categoryService.findByIdWithCourses(id);
+            return res.json(category);
         } catch (error) {
-            if(error instanceof Error){
-                return res.status(400).json({ message: error.message })
+            if (error instanceof Error) {
+                return res.status(400).json({ message: error.message });
             }
         }
-    }
-}
-
-
+    },
+};
 
 //this is how the code was before refatoring it with the services and the helpers folder
 /*import { Request, Response } from "express";

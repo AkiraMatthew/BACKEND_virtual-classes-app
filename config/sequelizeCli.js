@@ -4,5 +4,5 @@ module.exports = {
     port: '5432',
     database: 'virtualclassesapp_development',
     username: 'virtualclassesapp',
-    password: '12345'
-}
+    password: '12345',
+};

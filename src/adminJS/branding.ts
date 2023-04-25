@@ -1,4 +1,4 @@
-import { BrandingOptions } from "adminjs";
+import { BrandingOptions } from 'adminjs';
 
 export const brandingOptions: BrandingOptions = {
     companyName: 'OneBitFlix',
@@ -19,6 +19,6 @@ export const brandingOptions: BrandingOptions = {
             filterBg: '#333333',
             accent: '#151515',
             hoverBg: '#151515',
-        }
-    }
-}
+        },
+    },
+};

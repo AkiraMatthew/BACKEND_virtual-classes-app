@@ -1,5 +1,5 @@
-import { Op } from "sequelize";
-import { Course } from "../models";
+import { Op } from 'sequelize';
+import { Course } from '../models';
 
 export const courseService = {
     findByIdWithEpisodes: async (id: string) => {
@@ -8,7 +8,7 @@ export const courseService = {
                 'id',
                 'name',
                 'synopsis',
-                ['thumbnail_url', 'thumbnailUrl']
+                ['thumbnail_url', 'thumbnailUrl'],
             ],
             include: {
                 association: 'episodes',
@@ -18,14 +18,14 @@ export const courseService = {
                     'synopsis',
                     'order',
                     ['video_url', 'videoUrl'],
-                    ['seconds_long', 'secondsLong']
+                    ['seconds_long', 'secondsLong'],
                 ],
                 order: [['order', 'ASC']],
-                separate: true
-            }
+                separate: true,
+            },
         });
 
-        return courseWithEpisodes
+        return courseWithEpisodes;
     },
 
     getRandomFeaturedCourses: async () => {
@@ -34,28 +34,30 @@ export const courseService = {
                 'id',
                 'name',
                 'synopsis',
-                ['thumbnail_url', 'thumbnailUrl']
+                ['thumbnail_url', 'thumbnailUrl'],
             ],
             where: {
-                featured: true
-            }
+                featured: true,
+            },
         });
 
-        const randomFeaturedCourses = featuredCourses.sort(() => 0.5 - Math.random());
+        const randomFeaturedCourses = featuredCourses.sort(
+            () => 0.5 - Math.random()
+        );
 
-        return randomFeaturedCourses.slice(0, 3)
+        return randomFeaturedCourses.slice(0, 3);
     },
 
     getTopTenNewest: async () => {
         const courses = await Course.findAll({
             limit: 10,
-            order: [['created_at', 'ASC']]
+            order: [['created_at', 'ASC']],
         });
 
-        return courses
+        return courses;
     },
 
-    getTopTenByLikes:async () => {
+    getTopTenByLikes: async () => {
         const results = await Course.sequelize?.query(
             `SELECT
                 courses.id,
@@ -73,38 +75,39 @@ export const courseService = {
             LIMIT 10;`
         );
 
-        if(results){
+        if (results) {
             const [topTen, metadata] = results;
-            return topTen
+            return topTen;
         } else {
-            return null
+            return null;
         }
     },
 
     findByName: async (name: string, page: number, perPage: number) => {
-        const offset = (page -1) * perPage
-       
-         const {count, rows} = await Course.findAndCountAll({
+        const offset = (page - 1) * perPage;
+
+        const { count, rows } = await Course.findAndCountAll({
             attributes: [
                 'id',
                 'name',
                 'synopsis',
-                ['thumbnail_url', 'thumbnailUrl']
+                ['thumbnail_url', 'thumbnailUrl'],
             ],
             where: {
-                name: { //we use the following method to make a search that enables to the search reckognize any key-word for the research
-                    [Op.iLike]: `%${name}%` //the percentage means that we want to search the word/letter in any position in the string
-                }
+                name: {
+                    //we use the following method to make a search that enables to the search reckognize any key-word for the research
+                    [Op.iLike]: `%${name}%`, //the percentage means that we want to search the word/letter in any position in the string
+                },
             },
             limit: perPage,
-            offset
+            offset,
         });
 
         return {
             course: rows,
             page,
             perPage,
-            total: count
-        }
-    }
-}
+            total: count,
+        };
+    },
+};

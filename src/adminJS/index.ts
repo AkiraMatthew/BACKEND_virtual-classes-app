@@ -1,11 +1,11 @@
-import AdminJS from "adminjs";
-import AdminJSExpress from "@adminjs/express";
-import AdminJSSequelize from "@adminjs/sequelize";
-import { sequelize } from "../database";
-import { adminJsResources } from "./resources";
-import { brandingOptions } from "./branding";
-import { dashboardOptions } from "./dashboard";
-import { authOptions } from "./authentication";
+import AdminJS from 'adminjs';
+import AdminJSExpress from '@adminjs/express';
+import AdminJSSequelize from '@adminjs/sequelize';
+import { sequelize } from '../database';
+import { adminJsResources } from './resources';
+import { brandingOptions } from './branding';
+import { dashboardOptions } from './dashboard';
+import { authOptions } from './authentication';
 //import { locale } from "./locale";
 
 AdminJS.registerAdapter(AdminJSSequelize);
@@ -20,11 +20,11 @@ export const adminJs = new AdminJS({
 });
 
 export const adminJsRouter = AdminJSExpress.buildAuthenticatedRouter(
-    adminJs, 
-    authOptions, 
-    null, 
+    adminJs,
+    authOptions,
+    null,
     {
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
     }
 );

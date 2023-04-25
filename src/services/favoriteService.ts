@@ -1,4 +1,4 @@
-import { Favorite } from "../models"
+import { Favorite } from '../models';
 
 export const favoriteService = {
     findByUserId: async (userId: number) => {
@@ -11,41 +11,41 @@ export const favoriteService = {
                     'id',
                     'name',
                     'synopsis',
-                    ['thumbnail_url', 'thumbnailUrl']
-                ]
-            }
+                    ['thumbnail_url', 'thumbnailUrl'],
+                ],
+            },
         });
 
         return {
             userId,
-            courses: favorites.map(favorite => favorite.Course)
-        }
+            courses: favorites.map((favorite) => favorite.Course),
+        };
     },
     create: async (userId: number, courseId: number) => {
         const favorite = Favorite.create({
             userId,
-            courseId
+            courseId,
         });
 
-        return favorite
+        return favorite;
     },
 
     delete: async (userId: number, courseId: number) => {
         await Favorite.destroy({
             where: {
                 userId,
-                courseId
-            }
-        })
+                courseId,
+            },
+        });
     },
-    isFavorited:async (userId: number, courseId: number) => {
+    isFavorited: async (userId: number, courseId: number) => {
         const favorite = await Favorite.findOne({
             where: {
                 userId,
-                courseId
-            }
+                courseId,
+            },
         });
 
-        return favorite !== null // same as (favorite !== null) ? true : false
-    }
-}
+        return favorite !== null; // same as (favorite !== null) ? true : false
+    },
+};

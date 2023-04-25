@@ -1,6 +1,6 @@
-import { Response } from "express";
-import { AuthenticatedRequest } from "../middlewares/auth";
-import { favoriteService } from "../services/favoriteService";
+import { Response } from 'express';
+import { AuthenticatedRequest } from '../middlewares/auth';
+import { favoriteService } from '../services/favoriteService';
 
 export const favoritesController = {
     //GET /favorites
@@ -10,10 +10,10 @@ export const favoritesController = {
         try {
             const favorites = await favoriteService.findByUserId(userId);
 
-            return res.json(favorites)
+            return res.json(favorites);
         } catch (err) {
-            if(err instanceof Error){
-                return res.status(400).json({ message: err.message })
+            if (err instanceof Error) {
+                return res.status(400).json({ message: err.message });
             }
         }
     },
@@ -24,11 +24,14 @@ export const favoritesController = {
         const { courseId } = req.body;
 
         try {
-            const favorite = await favoriteService.create(userId, Number(courseId));
-            return res.status(201).json(favorite)
+            const favorite = await favoriteService.create(
+                userId,
+                Number(courseId)
+            );
+            return res.status(201).json(favorite);
         } catch (err) {
-            if(err instanceof Error){
-                return res.status(400).json({ message: err.message })
+            if (err instanceof Error) {
+                return res.status(400).json({ message: err.message });
             }
         }
     },
@@ -39,12 +42,12 @@ export const favoritesController = {
         const courseId = req.params.id;
 
         try {
-            await favoriteService.delete(userId, Number(courseId))
-            return res.status(204).send()
+            await favoriteService.delete(userId, Number(courseId));
+            return res.status(204).send();
         } catch (err) {
-            if(err instanceof Error){
-                return res.status(400).json({ message: err.message })
+            if (err instanceof Error) {
+                return res.status(400).json({ message: err.message });
             }
         }
-    }
-}
+    },
+};

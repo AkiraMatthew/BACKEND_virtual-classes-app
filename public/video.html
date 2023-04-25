@@ -2,24 +2,26 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Comp atible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Testando Streaming</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Comp atible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Testando Streaming</title>
+    </head>
+    <body>
+        <h2>Testando Streaming</h2>
 
-  <h2>Testando Streaming</h2>
+        <video id="videoplayer" controls>
+            <source
+                type="video/mp4"
+                src="/episodes/stream?videoUrl=videos/course-46/Orca_Vibes-Gypsy.mp4"
+            />
+        </video>
 
-  <video id="videoplayer" controls>
-    <source type="video/mp4" src="/episodes/stream?videoUrl=videos/course-46/Orca_Vibes-Gypsy.mp4"/>
-  </video>
-
-  <!-- <script>
+        <!-- <script>
     var myvideo = document.getElementById('videoplayer')
     myvideo.currentTime = 70;
     myvideo.play();
   </script> -->
-</body>
+    </body>
 </html>

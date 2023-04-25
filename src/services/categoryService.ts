@@ -1,38 +1,38 @@
-import { Category } from "../models";
+import { Category } from '../models';
 
 export const categoryService = {
-    findAllPaginated: async (page: number,perPage: number) => {
-        const offset = (page - 1) * perPage
-        
-        const { count, rows } = await Category.findAndCountAll({ //You can use the findAll propertiers to specify the behavior of the query response received in the frontend
+    findAllPaginated: async (page: number, perPage: number) => {
+        const offset = (page - 1) * perPage;
+
+        const { count, rows } = await Category.findAndCountAll({
+            //You can use the findAll propertiers to specify the behavior of the query response received in the frontend
             attributes: ['id', 'name', 'position'],
             order: [['position', 'ASC']],
             limit: perPage,
-            offset
+            offset,
         });
 
-        return ({ 
+        return {
             categories: rows,
             page: page,
             perPage: perPage,
-            total: count
-         })
+            total: count,
+        };
     },
-    
-    findByIdWithCourses:async (id: string) => {
+
+    findByIdWithCourses: async (id: string) => {
         const categoryWithCourses = await Category.findByPk(id, {
             attributes: ['id', 'name'],
             include: {
                 association: 'courses',
                 attributes: [
-                    'id', 
-                    'name', 
-                    'synopsis', 
-                    ['thumbnail_url', 'thumbnailUrl']
-                ]
-
-            }
-        })
-        return categoryWithCourses
-    }
-}
+                    'id',
+                    'name',
+                    'synopsis',
+                    ['thumbnail_url', 'thumbnailUrl'],
+                ],
+            },
+        });
+        return categoryWithCourses;
+    },
+};

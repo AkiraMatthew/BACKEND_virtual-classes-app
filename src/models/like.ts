@@ -1,12 +1,12 @@
-import { DataTypes, Model } from "sequelize"
-import { sequelize } from "../database"
+import { DataTypes, Model } from 'sequelize';
+import { sequelize } from '../database';
 
 export interface Like {
-    userId: number,
-    courseId: number
-};
+    userId: number;
+    courseId: number;
+}
 
-export interface LikeInstance extends Model<Like>, Like{  };
+export interface LikeInstance extends Model<Like>, Like {}
 
 export const Like = sequelize.define<LikeInstance, Like>('Like', {
     userId: {
@@ -15,10 +15,10 @@ export const Like = sequelize.define<LikeInstance, Like>('Like', {
         type: DataTypes.INTEGER,
         references: {
             model: 'users',
-            key: 'id'
+            key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
     },
     courseId: {
         allowNull: false,
@@ -26,9 +26,9 @@ export const Like = sequelize.define<LikeInstance, Like>('Like', {
         type: DataTypes.INTEGER,
         references: {
             model: 'courses',
-            key: 'id'
+            key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-    }
-})
+        onDelete: 'CASCADE',
+    },
+});
